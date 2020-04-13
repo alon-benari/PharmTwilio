@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model  TwilioSend.Models.CallerDetails;
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="text-sm-center">
+    <form asp-action="TwilioPost" asp-controller="TwilioApi">
+
+        <label asp-for="callerPhone"> </label>
+        <input asp-for="callerPhone" placeholder="Caller's phone number goes here." />
+        <input type="submit" />
+    </form>
+</div>
+
+<div class="panel-body">
+    <table class="table table-striped" id="table">
+        <tr>
+            <th>From</th>
+        </tr>
+
+    </table>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var postConfirm = function (msgId) {
+            console.log(msgId);
+            $.ajax({
+                type: "POST",
+                url: "/PostConfirm",
+                contentType: 'application/json',
+                data: JSON.stringify({ "targetPhoneNUmber": msgId } ),
+                success: function (data) {
+                    console.log('success');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+
+            })
+        }
+
+
+        $.ajax({
+            type: "GET",
+            url: "/GetLog",
+            contentType: "application/json",
+            dataType:"json",
+            success: function (data) {
+                data.forEach(el => console.log(el.smsLogId));
+                $.each(data, function (i, item) {
+                    var row = "<tr>" +
+                       // "<td id=" + item.smsLogId + ">" + item.from + "</td>" +
+                        "<td><button id=" +item.smsLogId+" >"+item.from+" Come over  </td>"
+                        "</tr>"
+                    $("#table").append(row);
+                    $("#" + item.smsLogId).click(function () {
+                        var msgId = $(this).attr("id") 
+                        console.log("ID is", msgId)
+                        try {
+                            postConfirm(msgId);
+                            $("#" + item.smsLogId).remove()
+                        }
+                        catch (err) {consol.log(err)}
+                        
+                     })
+                 });
+
+                            },
+            error: function (err) {
+                console.log(err)
+            }
+
+
+        })
+    })
+  </script>

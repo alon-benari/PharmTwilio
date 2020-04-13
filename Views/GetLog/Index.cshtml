@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<h4>Get Log</h4>
+<script src ="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(dcoument).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/GetLog",
+            contentType: "application/json",
+            dataType:"json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+
+
+        })
+    })
+  
+
+
+
+
+</script>
+

@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model TwilioSend.Models.CallerDetails
+<h1>Index</h1>
+<form asp-action="TwilioPost" asp-controller="TwilioApi">
+    
+    <label asp-for="callerPhone"> </label>
+    <input asp-for="callerPhone"  placeholder="Caller's phone number goes here."/>
+    <input type="submit" />
+
+
+    <</form>
+
+
